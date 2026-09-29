@@ -4,7 +4,7 @@ it('renders the landing page with the original domain facts and contact details'
     $this->get('/')
         ->assertOk()
         ->assertSee('This is an <span class="nw">elite-level</span> <span class="dot">.com</span> domain', false)
-        ->assertSee('It is owned by <a href="https://coherence.com" target="_blank" rel="noopener">Coherence.com</a> and may be in development.', false)
+        ->assertSee('zeroone.com is owned by Coherence.com and may be in development.')
         ->assertSee('mailto:team@coherence.com?subject=Domain%20name:%20zeroone.com', false)
         ->assertSee('Contact us')
         ->assertSee('zeroone.com');

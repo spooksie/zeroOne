@@ -247,7 +247,9 @@ a{color:inherit}
 .k-one{fill:none;stroke:var(--acc-ink);stroke-width:3.4px;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---------- Register bar (navigation) ---------- */
-.bar{position:fixed;inset:0 0 auto;z-index:20;height:var(--bar);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+/* The register stays out of the hero and slides in once the hero has scrolled away. */
+.bar{position:fixed;inset:0 0 auto;z-index:20;transform:translateY(-100%);visibility:hidden;transition:transform .5s cubic-bezier(.55,0,.25,1),visibility 0s .5s;height:var(--bar);background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar.shown,html:not(.js) .bar,.bar:focus-within{transform:none;visibility:visible;transition:transform .5s cubic-bezier(.55,0,.25,1),visibility 0s}
 .bar .wrap{height:100%;display:flex;align-items:center;gap:20px}
 .bar-logo{width:132px;flex:none;--cut:var(--bg)}
 .reg{position:relative;display:flex;align-items:center;margin-left:auto}
@@ -505,7 +507,6 @@ a{color:inherit}
                 <div class="hero-row">
                 <h1 id="hero-title">This is an <span class="nw">elite-level</span> <span class="dot">.com</span> domain</h1>
                 <div>
-                <p class="lede">It is owned by <a href="{{ $owner }}" target="_blank" rel="noopener">Coherence.com</a> and may be in development.</p>
                 <div class="actions">
                     <a class="switch" href="{{ $mailto }}"><span class="kn" aria-hidden="true">{!! $knob !!}</span><span class="t">Contact us</span></a>
                     <span class="hint">Tip: click the logo to switch it off.</span>
@@ -684,6 +685,12 @@ a{color:inherit}
 (function () {
   var root = document.documentElement;
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Register bar appears only after the hero has left the viewport ---- */
+  var bar = document.querySelector('.bar');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { bar.classList.toggle('shown', !es[0].isIntersecting); }, { rootMargin: '-64px 0px 0px 0px' }).observe(document.querySelector('.hero'));
+  } else { bar.classList.add('shown'); }
 
   /* ---- Theme: dark-mode switch, with a CRT power-cut transition ---- */
   var th = document.querySelector('.th');
