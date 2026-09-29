@@ -205,7 +205,8 @@ SVG;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + 12px);-webkit-text-size-adjust:100%;interpolate-size:allow-keywords}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--serif);overflow-x:hidden}
+html,body{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--serif)}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .wrap{width:min(1240px,100%);margin:0 auto;padding:0 20px}
@@ -253,13 +254,14 @@ a{color:inherit}
 .bar .wrap{height:100%;display:flex;align-items:center;gap:20px}
 .bar-logo{width:132px;flex:none;--cut:var(--bg)}
 .reg{position:relative;display:flex;align-items:center;margin-left:auto}
-.cell{position:relative;width:44px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;border-radius:10px}
+.reg{--cell:44px}
+.cell{position:relative;width:var(--cell);height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;border-radius:10px}
 .cell .ring{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--ring);transition:box-shadow .3s}
 .cell:hover .ring{box-shadow:inset 0 0 0 2px var(--ink)}
 .cell .addr{font:600 9px/1 var(--sans);letter-spacing:.06em;color:var(--muted)}
 .cell[aria-current="true"] .addr{color:var(--ink)}
 .cell.past .ring{box-shadow:inset 0 0 0 9px var(--ring)}
-.reg-knob{position:absolute;left:13px;top:7px;width:18px;height:18px;pointer-events:none;transform:translateX(calc(var(--n,0)*44px));transition:transform calc(.3s + var(--dist,1)*.07s) cubic-bezier(.55,0,.25,1)}
+.reg-knob{position:absolute;left:calc((var(--cell) - 18px)/2);top:7px;width:18px;height:18px;pointer-events:none;transform:translateX(calc(var(--n,0)*var(--cell)));transition:transform calc(.3s + var(--dist,1)*.07s) cubic-bezier(.55,0,.25,1)}
 .reg-knob svg{display:block;width:100%;height:100%;transition:scale .2s ease}
 .reg-knob.moving svg{scale:1.25 .82}
 .readout{min-width:128px;font:600 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
@@ -271,7 +273,7 @@ a{color:inherit}
 .bar-cta:hover i .k-disc{fill:var(--acc)}.bar-cta:hover i .k-one{stroke:var(--acc-ink)}
 
 /* Theme switch: sun on the left (light), moon on the right (dark); the knob carries the current mode. */
-.th{appearance:none;border:0;background:none;padding:0 4px;min-width:44px;height:44px;display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--ink);font:700 13px/1 var(--sans)}
+.th{flex:none;appearance:none;border:0;background:none;padding:0 4px;min-width:44px;height:44px;display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--ink);font:700 13px/1 var(--sans)}
 .th .track{position:relative;width:64px;height:34px;flex:none;border-radius:999px;box-shadow:inset 0 0 0 2px var(--ink)}
 .th .ic{position:absolute;top:9px;width:16px;height:16px;color:var(--muted)}
 .th .ic.i-sun{left:9px}.th .ic.i-moon{right:9px}
@@ -287,12 +289,14 @@ a{color:inherit}
 
 @media (max-width:1040px){.readout{display:none}}
 @media (max-width:760px){
+  .reg{--cell:34px}
   .bar-cta{display:none}
   .bar .wrap{gap:4px;padding:0 10px}
   .bar-logo{width:92px}
   .reg{margin-left:auto}
 }
-@media (max-width:420px){.bar-logo{display:none}.reg{margin-left:0}.bar .wrap{justify-content:space-between}}
+@media (max-width:420px){.bar-logo{display:none}.reg{margin-left:0}.bar .wrap{justify-content:space-between;padding:0 12px}}
+@media (max-width:370px){.reg{--cell:32px}.th{padding:0}.bar .wrap{padding:0 8px}}
 
 /* CRT power-cut theme transition */
 ::view-transition{background:#050504}
@@ -300,7 +304,8 @@ a{color:inherit}
 
 /* ---------- Hero ---------- */
 .hero{min-height:100svh;padding:calc(var(--bar) + clamp(24px,5vh,56px)) 0 clamp(28px,5vh,56px);display:flex;align-items:center}
-.hero .wrap{display:block}
+.hero .wrap{display:block;min-width:0}
+.hero-row>*{min-width:0}
 .hero-row{display:grid;gap:28px;align-items:end}
 @media (min-width:980px){.hero-row{grid-template-columns:minmax(0,1.2fr) minmax(0,.9fr) minmax(0,1fr);gap:44px}}
 /* The wordmark is the horizon: full width, sized so the row below stays above the fold. */
@@ -312,6 +317,8 @@ a{color:inherit}
 .lede a{color:var(--ink);text-decoration-color:var(--acc);text-decoration-thickness:2px;text-underline-offset:3px}
 .actions{display:flex;align-items:center;gap:18px 26px;flex-wrap:wrap;margin-top:clamp(20px,3.4vh,32px)}
 .hint{font:600 13px/1.4 var(--sans);color:var(--muted)}
+.hint .tap{display:none}
+@media (hover:none),(pointer:coarse){.hint .tap{display:inline}.hint .click{display:none}}
 
 /* The big switch button. Hover slides the knob on. */
 .switch{--w:210px;position:relative;display:inline-flex;align-items:center;height:60px;width:var(--w);padding:0 26px 0 22px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font:800 17px/1 var(--sans);letter-spacing:-.01em;overflow:hidden;isolation:isolate}
@@ -382,7 +389,7 @@ a{color:inherit}
 .dip li:hover .o{color:var(--ink)}
 .dip-note{margin:28px 0 0;max-width:62ch;color:var(--muted)}
 /* Touch screens have no hover: the rows switch on one by one when the section powers up. */
-@media (hover:none){
+@media (hover:none),(pointer:coarse){
   .dip li:nth-child(n) .mid i{transition-delay:calc(var(--r)*140ms + .3s)}
   [data-on].on .dip .mid i{transform:translateX(30px);background:var(--acc);box-shadow:none}
   [data-on].on .dip .o{color:var(--ink)}
@@ -468,6 +475,55 @@ a{color:inherit}
 .address span{transition:transform .5s cubic-bezier(.3,1.6,.5,1) calc(var(--b)*90ms)}
 .js [data-on]:not(.on) .address span{transform:rotateX(90deg)}
 
+/* ---------- Phones ---------- */
+@media (max-width:979px){
+  .hero{align-items:flex-start;padding-top:clamp(40px,9svh,88px)}
+  .hero-logo{margin-bottom:clamp(20px,3.5svh,32px)}
+  .hero h1{font-size:clamp(36px,10.4vw,54px);max-width:12ch}
+  .hero-row{gap:22px}
+  .actions{margin-top:4px;gap:12px 20px}
+}
+@media (max-width:599px){
+  .sec{padding:64px 0}
+  .sec-head{margin-bottom:28px}
+  .sec h2{font-size:clamp(34px,10vw,44px)}
+  .sec-head p{font-size:17px}
+  .address{margin-bottom:14px}
+  .tt td{padding:14px 0;font-size:17px}
+  .tt td:first-child{padding-right:14px}
+  .out{gap:10px}
+  .out .v{font-size:22px}
+  .tog{width:52px;height:30px}.tog i{width:22px;height:22px}.tog.is1 i{transform:translateX(22px)}
+  .dip-head,.dip li{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr)}
+  .dip-head .glyph{font-size:clamp(76px,26vw,110px)}
+  .dip li{min-height:60px}
+  .dip .z,.dip .o{font-size:19px}
+  .dip .mid{width:52px;height:30px}.dip .mid i{width:22px;height:22px}
+  @media (hover:none),(pointer:coarse){[data-on].on .dip .mid i{transform:translateX(22px)}}
+  .mem li{gap:4px 16px;padding:18px 0}
+  .mem .bits{gap:4px}.mem .bits i{width:11px;height:11px}
+  .mem h3{font-size:19px}
+  .mem p{font-size:15.5px}
+  .q summary{min-height:68px;gap:16px;font-size:18px}
+  .q .sw{width:52px;height:30px}.q .sw i{width:22px;height:22px}
+  .q[open] .sw i{transform:translateX(22px)}
+  .q .a{font-size:16.5px;padding-bottom:22px}
+  .power .panel{min-height:0}
+  .power .off,.power .on{padding:44px 20px;gap:24px}
+  .power .off{flex-direction:row;align-items:flex-end;justify-content:space-between}
+  .power .off .state{order:2}
+  .power .state{font-size:clamp(96px,30vw,140px)}
+  .power .on{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:28px 16px}
+  .power .on .state{grid-column:2;grid-row:1}
+  .power .on > div{grid-column:1;grid-row:1}
+  .power .on .bigsw{grid-column:1/-1}
+  .bigsw{--w:100%;height:72px;padding:0 8px 0 26px;font-size:21px}
+  .bigsw i{width:56px;height:56px}
+  .foot-top{gap:32px}
+  .credits .sep{display:none}
+  .credits{flex-direction:column;align-items:flex-start;gap:0}
+}
+
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:1ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:1ms!important;transition-delay:0s!important}
@@ -509,7 +565,7 @@ a{color:inherit}
                 <div>
                 <div class="actions">
                     <a class="switch" href="{{ $mailto }}"><span class="kn" aria-hidden="true">{!! $knob !!}</span><span class="t">Contact us</span></a>
-                    <span class="hint">Tip: click the logo to switch it off.</span>
+                    <span class="hint">Tip: <span class="click">click</span><span class="tap">tap</span> the logo to switch it off.</span>
                 </div>
                 </div>
 
