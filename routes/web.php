@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::view('/', 'home')->name('home');
 
 Route::get('/brand-review', fn () => response()
     ->view('brand-review')
