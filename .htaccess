@@ -1,0 +1,18 @@
+# Production runs the app straight from the domain's folder (the host serves
+# ~/zeroone.com, not ~/zeroone.com/public), so hand every request to public/
+# and refuse the app's own files. Local development (Herd) ignores this file.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Let the host's SSL renewal (AutoSSL / Let's Encrypt) through untouched.
+    RewriteRule ^\.well-known/ - [L]
+
+    # Never serve source, config, secrets or dependencies.
+    RewriteRule ^(\.|app/|bootstrap/|config/|database/|resources/|routes/|storage/|tests/|vendor/|node_modules/|artisan$|composer\.|package|phpunit|phpstan|pint|vite\.config|README) - [F,L]
+
+    # Everything else is answered from public/.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
