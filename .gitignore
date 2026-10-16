@@ -36,3 +36,6 @@ yarn-error.log
 /boost.json
 /opencode.json
 /opencode.jsonc
+
+# Graphify knowledge graph (each computer builds its own)
+graphify-out/
