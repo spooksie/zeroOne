@@ -620,7 +620,7 @@ a{color:inherit}
 
 <footer class="foot">
     <div class="wrap">
-        <span>Private preview for ZeroOne.com — please don’t share this link. ©{{ date('Y') }} Booth.com Ltd. All Rights Reserved.</span>
+        <span>Private preview for ZeroOne.com — please don’t share this link. ©{{ date('Y') }} Coherence. All Rights Reserved.</span>
         <div class="credits">
             <a class="credit coh" href="https://coherence.com" target="_blank" rel="noopener" title="Coherence — ethical, human-centred AI across sound, education and consciousness">
                 <span>Part of</span>

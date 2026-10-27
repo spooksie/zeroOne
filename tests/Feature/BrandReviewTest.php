@@ -6,7 +6,8 @@ it('renders the brand review page with the four directions', function () {
         ->assertSee('Four directions for the ZeroOne identity.')
         ->assertSeeInOrder(['Coin', 'Segment', 'Extrude', 'On/Off'])
         ->assertSee('https://qquantum.ai', false)
-        ->assertSee('Booth.com Ltd. All Rights Reserved.')
+        ->assertSee('Coherence. All Rights Reserved.')
+        ->assertDontSee('Booth.com', false)
         ->assertSee('https://coherence.com', false);
 });
 

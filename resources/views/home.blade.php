@@ -77,7 +77,7 @@
         '@graph' => [
             ['@type' => 'WebSite', '@id' => $url.'#website', 'url' => $url, 'name' => 'ZeroOne.com', 'description' => $description, 'inLanguage' => 'en', 'copyrightHolder' => ['@id' => 'https://coherence.com/#organization'], 'publisher' => ['@id' => 'https://coherence.com/#organization'], 'creator' => ['@id' => 'https://qquantum.ai/#organization']],
             [
-                '@type' => 'Organization', '@id' => 'https://coherence.com/#organization', 'name' => 'Coherence', 'legalName' => 'Booth.com Ltd', 'url' => 'https://coherence.com/', 'email' => $email,
+                '@type' => 'Organization', '@id' => 'https://coherence.com/#organization', 'name' => 'Coherence', 'url' => 'https://coherence.com/', 'email' => $email,
                 'contactPoint' => ['@type' => 'ContactPoint', 'contactType' => 'customer support', 'email' => $email],
             ],
             ['@type' => 'Organization', '@id' => 'https://qquantum.ai/#organization', 'name' => 'QQuantum.ai', 'url' => 'https://qquantum.ai/', 'description' => 'AI systems engineering studio in Barcelona — brand identity, logo and web design, AI agents and custom AI systems.'],
@@ -715,7 +715,7 @@ a{color:inherit}
         </div>
         <div class="bitrule" style="--lit: 64px" aria-hidden="true"></div>
         <div class="foot-bottom">
-            <p>&copy;{{ date('Y') }} Booth.com Ltd. All Rights Reserved.</p>
+            <p>&copy;{{ date('Y') }} Coherence. All Rights Reserved.</p>
             <div class="credits">
                 <a href="https://qquantum.ai/creative-design/domain-landing-pages" target="_blank" rel="noopener" title="QQuantum.ai — domain landing pages designed and built by an AI systems engineering studio">
                     <span>Designed &amp; built by</span>
